@@ -20,5 +20,6 @@ public class Array1 {
             }
         }
         System.out.print("index of " + num + "is" + index);
+        sc.close();
     }
 }

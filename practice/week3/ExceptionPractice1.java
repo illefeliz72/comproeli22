@@ -2,25 +2,25 @@ import java.util.Scanner;
 
 public class ExceptionPractice1 {
     public static void main(String[] args) {
-    
-            int number = inputNumber();
-            System.out.println("The number is " + number);
+        System.out.println("ENTER A NUMBER: ");
+        int number = inputNumber();
+        System.out.println("The number is " + number);
     }
 
+    // method inputNumber()
     public static int inputNumber() {
         Scanner input = new Scanner(System.in);
-        int num = 0;
-        boolean valid = false;
-
-        while (!valid) {
+        while (true) {
             try {
-                System.out.print("Enter a number: ");
                 int number = input.nextInt();
-                valid = true;
-            } catch (Exception e) {
+                return number;
+                
+            } catch (Exception e) { 
+                input.nextLine();
                 System.out.println("Invalid input or Error! Please try again.");
+                System.out.println("ENTER A NUMBER:");
+                
             }
         }
-        return num;
     }
 }

@@ -15,9 +15,12 @@ public class MethodArray {
             }
         }
         for (int col = 0; col < matrix[0].length; col++) {
-            double sum =sumColumn(matrix, col);
-            System.out.println("Sum of the elements at column " + col + " is " + sum );
+            double sum = sumColumn(matrix, col);
+            System.out.println("Sum of the elements at column " + col + " is " + sum);
         }
+
+        System.out.println("Sum of the elements in the major diagonal is "
+                + sumMajorDiagonal(matrix));
 
         input.close();
     }
@@ -28,6 +31,16 @@ public class MethodArray {
 
         for (int row = 0; row < m.length; row++) {
             sum += m[row][columnIndex];
+        }
+        return sum;
+    }
+
+    // method 2
+    public static double sumMajorDiagonal(double[][] m) {
+        double sum = 0;
+        for (int i = 0; i < m.length; i++) {
+            // The major diagonal always has the same row and column index
+            sum += m[i][i];
         }
         return sum;
     }

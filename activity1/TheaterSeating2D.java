@@ -1,4 +1,4 @@
-package week2;
+package activity1;
 
 public class TheaterSeating2D {
     public static void main(String[] args) {

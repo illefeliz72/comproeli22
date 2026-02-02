@@ -1,4 +1,4 @@
-package week2;
+package activity1;
 
 public class MultipleRows {
     public static void main(String[] args) {

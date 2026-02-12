@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.util.Scanner;
+import java.util.*;
 
 public class App {
 
@@ -87,6 +87,21 @@ public class App {
                 String row = names[i] + "," + scores[i][0] + "," + scores[i][1] + "," + scores[i][2];
                 writer.write(row);
                 writer.newLine();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void readFromCSV() {
+        String fileName = "grade.csv";
+        String line;
+        System.out.println("\n=== Current Saved Grades ===");
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            while ((line = reader.readLine()) != null) {
+                // Replaces commas with tabs for a cleaner look in console
+                System.out.println(line.replace(",", "\t| "));
             }
         } catch (Exception e) {
             e.printStackTrace();

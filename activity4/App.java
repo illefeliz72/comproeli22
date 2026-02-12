@@ -1,10 +1,13 @@
 package activity4;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.Scanner;
 
 public class App {
+
     public static void main(String[] args) {
         String[] subjects = new String[50];
         double[][] grades = new double[50][3];
@@ -14,11 +17,11 @@ public class App {
         boolean running = true;
 
         System.out.println("""
-                    *** STUDENT GRADE PORTFOLIO SYSTEM ***
+                    === STUDENT GRADE PORTFOLIO SYSTEM ===
                 """);
         while (running) {
             System.out.println("""
-                    \nMain Menu:
+                        Main Menu:
                       1.) Enter Grades:
                       2.) Exit (Save & Close):
                     """);
@@ -71,16 +74,22 @@ public class App {
                     System.out.println("Invalid option. Please try again.");
             }
         }
-        System.out.println(" *** Application Closed. *** ");
+        System.out.println("Application Closed.");
     }
 
-    public static void saveToCSV(String[] subjects, double[][] grades, int subjectCount) {
+    private static void saveToCSV(String[] names, double[][] scores, int total) {
         String fileName = "grades.csv";
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(fileName));
-            
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+            writer.write("Subject,Prelim,Midterm,Final");
+            writer.newLine();
+
+            for (int i = 0; i < total; i++) {
+                String row = names[i] + "," + scores[i][0] + "," + scores[i][1] + "," + scores[i][2];
+                writer.write(row);
+                writer.newLine();
+            }
         } catch (Exception e) {
-           
+            e.printStackTrace();
         }
     }
 }

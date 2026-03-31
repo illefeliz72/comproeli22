@@ -40,7 +40,7 @@ public class GameService {
         try (PrintWriter writer = new PrintWriter(new FileWriter(LEADERBOARD_FILE, true))) {
             writer.println(result.getSummary());
         } catch (IOException e) {
-            System.err.println("Failed to save leaderboard: " + e.getMessage());
+            System.out.println("Failed to save leaderboard: " + e.getMessage());
         }
     }
 

@@ -1,20 +1,24 @@
+
 package com.models;
 
-public class Player extends User {
-    private static final long serialVersionUID = 1L;
+public class Player {
+    private String name;
     private int score;
 
     public Player(String name) {
-        super(name);
+        this.name = name;
         this.score = 0;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public int getScore() {
         return score;
     }
 
-    public void incrementScore() {
+    public void addWin() {
         this.score++;
     }
 }
-

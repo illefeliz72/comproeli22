@@ -1,12 +1,12 @@
-package com.models;
+/*package com.models;
 
 import java.io.Serializable;
 
-public class MatchResult implements Serializable {
-    private static final long serialVersionUID = 1L;
-    private Player player1;
-    private Player player2;
-    private String overallWinner;
+public interface MatchResult extends Serializable {
+    static final long serialVersionUID = 1L;
+    Player player1;
+    Player player2;
+    String overallWinner;
 
     public MatchResult(Player p1, Player p2, String winner) {
         this.player1 = p1;
@@ -22,4 +22,4 @@ public class MatchResult implements Serializable {
             """,player1.getName(), player1.getScore()
             ,player2.getName(), player2.getScore(), overallWinner);
     }
-}
+}*/

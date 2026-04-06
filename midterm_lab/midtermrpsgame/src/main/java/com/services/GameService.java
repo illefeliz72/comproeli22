@@ -6,7 +6,6 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import com.models.MatchResult;
 import com.models.Player;
 
 public class GameService {

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class ArtClient {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        
+
         System.out.println("--- ArtVantage Client ---");
         System.out.print("Enter Art ID: ");
         String id = sc.nextLine();
@@ -22,8 +22,8 @@ public class ArtClient {
         double price = sc.nextDouble();
 
         try (Socket socket = new Socket("localhost", 5000);
-             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-             ObjectInputStream in = new ObjectInputStream(socket.getInputStream())) {
+                ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+                ObjectInputStream in = new ObjectInputStream(socket.getInputStream())) {
 
             out.writeObject("ADD");
             out.writeObject(id);
@@ -37,5 +37,7 @@ public class ArtClient {
         } finally {
             sc.close();
         }
+        System.out.println("DAILY QUOTE: " + WebDataModule.getDailyInspiration());
+        System.out.println("--------------------------------------------");
     }
 }

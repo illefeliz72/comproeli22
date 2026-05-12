@@ -12,13 +12,15 @@ public class WebDataModule {
         try {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("https://api.quotable.io/random"))
+                    .uri(URI.create("https://api.adviceslip.com/advice"))
                     .build();
 
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            JsonObject jsonObject = JsonParser.parseString(response.body()).getAsJsonObject();
             
-            return jsonObject.get("content").getAsString() + " — " + jsonObject.get("author").getAsString();
+            JsonObject jsonObject = JsonParser.parseString(response.body()).getAsJsonObject();
+            JsonObject slip = jsonObject.getAsJsonObject("slip");
+            
+            return slip.get("advice").getAsString();
         } catch (Exception e) {
             return "Keep it up bro Your art matters.";
         }

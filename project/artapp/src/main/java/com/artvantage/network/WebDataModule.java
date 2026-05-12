@@ -16,7 +16,6 @@ public class WebDataModule {
                     .build();
 
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            
             JsonObject jsonObject = JsonParser.parseString(response.body()).getAsJsonObject();
             JsonObject slip = jsonObject.getAsJsonObject("slip");
             

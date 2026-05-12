@@ -2,18 +2,29 @@ package com.artvantage.models;
 
 import java.io.Serializable;
 
-public class ArtProject implements Serializable {
+public abstract class ArtProject implements Serializable {
     private String title;
     private double price;
-    private byte[] imageBytes; // This holds the actual picture data
+    private byte[] imageData;
 
-    public ArtProject(String title, double price, byte[] imageBytes) {
+    public ArtProject(String title, double price) {
         this.title = title;
         this.price = price;
-        this.imageBytes = imageBytes;
     }
 
     public String getTitle() {
         return title;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public byte[] getImageData() {
+        return imageData;
+    }
+
+    public void setImageData(byte[] imageData) {
+        this.imageData = imageData;
     }
 }

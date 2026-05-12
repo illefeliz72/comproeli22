@@ -3,12 +3,11 @@ package com.artvantage.network;
 import com.artvantage.models.ArtProject;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.Map;
 
@@ -18,27 +17,20 @@ public class ArtServer {
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     public static void main(String[] args) {
-        System.out.println("==============================================");
-        System.out.println("[SERVER] ArtVantage | Server Online");
-        System.out.println("[SERVER] Port: 5000 | Status: Listening...");
-        System.out.println("==============================================");
-
+        System.out.println("[SERVER] ArtVantage Server Online...");
         try (ServerSocket serverSocket = new ServerSocket(5000)) {
             while (true) {
                 Socket clientSocket = serverSocket.accept();
-
-                System.out.println("\n[NEW CONNECTION] Artist connected from: " + clientSocket.getInetAddress());
-
                 new Thread(() -> handleClient(clientSocket)).start();
             }
         } catch (IOException e) {
-            System.err.println("[ERROR] Server crashed: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
     private static void handleClient(Socket socket) {
         try (ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-                ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream())) {
+             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream())) {
 
             String command = (String) in.readObject();
             if ("ADD".equals(command)) {
@@ -48,13 +40,15 @@ public class ArtServer {
                 gallery.put(id, art);
                 saveData();
 
-                System.out.println("[DATA RECEIVED] ID: " + id + " | Title: " + art.getTitle());
-                System.out.println("[DATABASE] Successfully updated " + DATABASE);
+                if (art.getImageData() != null) {
+                    Files.write(Paths.get("server_received_" + id + ".jpg"), art.getImageData());
+                }
 
-                out.writeObject("SUCCESS: Saved to JSON");
+                System.out.println("[SERVER] Received and Saved ID: " + id);
+                out.writeObject("SUCCESS: Saved text and image!");
             }
         } catch (Exception e) {
-            System.out.println("[DISCONNECT] Artist left the session.");
+            System.out.println("Client disconnected.");
         }
     }
 
@@ -62,7 +56,7 @@ public class ArtServer {
         try (FileWriter writer = new FileWriter(DATABASE)) {
             gson.toJson(gallery, writer);
         } catch (IOException e) {
-            System.out.println("[ERROR] Failed to write to JSON file.");
+            System.out.println("Save failed.");
         }
     }
 }

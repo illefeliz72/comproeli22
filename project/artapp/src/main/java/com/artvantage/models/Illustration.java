@@ -4,9 +4,4 @@ public class Illustration extends ArtProject {
     public Illustration(String title, double price) {
         super(title, price);
     }
-
-    @Override
-    public String getWorkType() {
-        return "Digital Illustration";
-    }
 }

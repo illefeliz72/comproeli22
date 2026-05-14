@@ -7,7 +7,7 @@ import java.net.http.HttpResponse;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-public class WebDataModule {
+public class WDM {
     public static String getDailyInspiration() {
         try {
             HttpClient client = HttpClient.newHttpClient();

@@ -3,11 +3,14 @@ package com.artvantage.network;
 import com.artvantage.models.ArtProject;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import java.io.*;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.Map;
 
@@ -17,14 +20,14 @@ public class ArtServer {
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     public static void main(String[] args) {
-        System.out.println("[SERVER] ArtVantage Server Online...");
+        System.out.println("[SERVER] ArtVantage Server is Online...");
         try (ServerSocket serverSocket = new ServerSocket(5000)) {
             while (true) {
                 Socket clientSocket = serverSocket.accept();
                 new Thread(() -> handleClient(clientSocket)).start();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Server error: " + e.getMessage());
         }
     }
 
@@ -38,25 +41,27 @@ public class ArtServer {
                 ArtProject art = (ArtProject) in.readObject();
 
                 gallery.put(id, art);
-                saveData();
+                saveToDatabase();
 
                 if (art.getImageData() != null) {
-                    Files.write(Paths.get("server_received_" + id + ".jpg"), art.getImageData());
+                    FileOutputStream fos = new FileOutputStream("server_received_" + id + ".jpg");
+                    fos.write(art.getImageData());
+                    fos.close();
+                    System.out.println("[SERVER] Image saved for ID: " + id);
                 }
 
-                System.out.println("[SERVER] Received and Saved ID: " + id);
-                out.writeObject("SUCCESS: Saved text and image!");
+                out.writeObject("SUCCESS: Art and Image processed.");
             }
         } catch (Exception e) {
-            System.out.println("Client disconnected.");
+            System.out.println("Client connection closed.");
         }
     }
 
-    private static synchronized void saveData() {
-        try (FileWriter writer = new FileWriter(DATABASE)) {
+    private static synchronized void saveToDatabase() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(DATABASE))) {
             gson.toJson(gallery, writer);
         } catch (IOException e) {
-            System.out.println("Save failed.");
+            System.out.println("Error saving JSON database.");
         }
     }
 }

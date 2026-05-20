@@ -33,7 +33,7 @@ public class ArtServer {
 
     private static void handleClient(Socket socket) {
         try (ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream())) {
+                ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream())) {
 
             String command = (String) in.readObject();
             if ("ADD".equals(command)) {
@@ -59,7 +59,18 @@ public class ArtServer {
 
     private static synchronized void saveToDatabase() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(DATABASE))) {
-            gson.toJson(gallery, writer);
+            
+            java.util.Map<String, Object> cleanGallery = new java.util.HashMap<>();
+
+            
+            for (Map.Entry<String, ArtProject> entry : gallery.entrySet()) {
+                java.util.Map<String, Object> artData = new java.util.HashMap<>();
+                artData.put("title", entry.getValue().getTitle());
+                artData.put("price", entry.getValue().getPrice());
+                cleanGallery.put(entry.getKey(), artData);
+            }
+
+            gson.toJson(cleanGallery, writer);
         } catch (IOException e) {
             System.out.println("Error saving JSON database.");
         }

@@ -12,15 +12,19 @@ public abstract class ArtProject implements Serializable {
         this.price = price;
     }
 
-    public String getTitle() {
-        return title;
+    public String getTitle() { 
+        return title; 
     }
 
-    public void setImageData(byte[] data) {
-        this.imageData = data;
+    public double getPrice() {
+        return price;
     }
 
-    public byte[] getImageData() {
-        return imageData;
+    public void setImageData(byte[] data) { 
+        this.imageData = data; 
+    }
+
+    public byte[] getImageData() { 
+        return imageData; 
     }
 }
